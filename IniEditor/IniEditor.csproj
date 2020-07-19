@@ -1,20 +1,33 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    <UseWPF>true</UseWPF>
-  </PropertyGroup>
+    <PropertyGroup Label="MultilingualAppToolkit">
+        <MultilingualAppToolkitVersion>4.0</MultilingualAppToolkitVersion>
+        <MultilingualFallbackLanguage>zh-Hans</MultilingualFallbackLanguage>
+        <TranslationReport Condition="'$(Configuration)' == 'Release'">true</TranslationReport>
+        <SuppressPseudoWarning Condition="'$(Configuration)' == 'Debug'">true</SuppressPseudoWarning>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="AvalonEdit" Version="6.0.1" />
-    <PackageReference Include="FluentWPF" Version="0.8.0" />
-  </ItemGroup>
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <UseWPF>true</UseWPF>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <None Update="IniRule.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
+    <Import Project="$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\Microsoft.Multilingual.ResxResources.targets" Label="MultilingualAppToolkit" Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\v$(MultilingualAppToolkitVersion)\Microsoft.Multilingual.ResxResources.targets')" />
+
+    <Target Name="MATPrerequisite" BeforeTargets="PrepareForBuild" Condition="!Exists('$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\Microsoft.Multilingual.ResxResources.targets')" Label="MultilingualAppToolkit">
+        <Warning Text="$(MSBuildProjectFile) 已启用多语言生成，但生成期间多语言应用程序工具包不可用。如果使用Visual Studio进行构建，请检查并确保工具包已正确安装。" />
+    </Target>
+
+    <ItemGroup>
+        <PackageReference Include="AvalonEdit" Version="6.0.1" />
+        <PackageReference Include="FluentWPF" Version="0.8.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Update="IniRule.xml">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
 
 </Project>
