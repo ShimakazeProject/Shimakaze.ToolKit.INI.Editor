@@ -1,8 +1,11 @@
 ﻿using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.CodeCompletion;
+using ICSharpCode.AvalonEdit.Folding;
 using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
+
 using IniEditor.Data;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,18 +38,19 @@ namespace IniEditor
             Editor.Document.Changed += Document_Changed;
             Editor.MouseMove += (o, e) => Method();
             Editor.KeyUp += (o, e) => Method();
-            Editor.TextArea.TextEntering += TextArea_TextEntering;
             Editor.TextArea.TextEntered += TextArea_TextEntered; ;
-        }
 
+            foldingManager = FoldingManager.Install(Editor.TextArea);
+            foldingStrategy = new FoldingStrategy();
+            foldingStrategy.UpdateFoldings(foldingManager, Editor.Document);
+        }
+        private FoldingManager foldingManager;
+        private FoldingStrategy foldingStrategy;
         private void TextArea_TextEntered(object sender, TextCompositionEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("TextEntered  " + Editor.GetCursorWord());
             Editor.ShowCompletionWindow(Editor.GetCursorWord());
-        }
-        private void TextArea_TextEntering(object sender, TextCompositionEventArgs e)
-        {
-            //System.Diagnostics.Debug.WriteLine("TextEntering " +e.Text);
+
+            foldingStrategy.UpdateFoldings(foldingManager, Editor.Document);
         }
 
         private void Document_Changed(object sender, ICSharpCode.AvalonEdit.Document.DocumentChangeEventArgs e)
@@ -56,8 +60,8 @@ namespace IniEditor
 
         void ReLoadTheme()
         {
-            using (XmlTextReader reader = new XmlTextReader("IniRule.xml"))
-                Editor.SyntaxHighlighting = HighlightingLoader.Load(reader, HighlightingManager.Instance);
+            using XmlTextReader reader = new XmlTextReader("IniRule.xml");
+            Editor.SyntaxHighlighting = HighlightingLoader.Load(reader, HighlightingManager.Instance);
         }
 
         void Method()
