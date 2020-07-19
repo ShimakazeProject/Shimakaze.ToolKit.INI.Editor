@@ -13,6 +13,7 @@
     fw:AcrylicWindow.Enabled="True"
     fw:AcrylicWindow.FallbackColor="#000"
     fw:AcrylicWindow.TintColor="#000"
+    fw:PointerTracker.Enabled="True"
     Background="#40000000"
     Foreground="#FFF"
     mc:Ignorable="d">

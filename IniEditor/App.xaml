@@ -4,6 +4,8 @@
              xmlns:local="clr-namespace:IniEditor"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+
+        <!--  FluentWPF Controls  -->
+        <ResourceDictionary Source="pack://application:,,,/FluentWPF;component/Styles/Controls.xaml" />
     </Application.Resources>
 </Application>
