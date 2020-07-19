@@ -34,6 +34,7 @@
             ShowLineNumbers="True"
             SyntaxHighlighting="INI"
             VerticalScrollBarVisibility="Auto" />
+
         <StackPanel Orientation="Horizontal" Grid.Row="1">
             <TextBlock Text="当前行的内容: "/>
             <TextBlock x:Name="tbLine"/>
