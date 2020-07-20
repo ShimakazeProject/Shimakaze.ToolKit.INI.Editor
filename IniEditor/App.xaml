@@ -5,10 +5,15 @@
              xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
              xmlns:data="clr-namespace:IniEditor.Data"
              xmlns:local="clr-namespace:IniEditor"
+             xmlns:ui="http://schemas.modernwpf.com/2019"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+
+                <ui:ThemeResources />
+                <ui:XamlControlsResources />
+
                 <!--  FluentWPF Controls  -->
                 <ResourceDictionary Source="pack://application:,,,/FluentWPF;component/Styles/Controls.xaml" />
 

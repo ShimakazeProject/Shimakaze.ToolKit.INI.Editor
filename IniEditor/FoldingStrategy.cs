@@ -3,6 +3,7 @@ using ICSharpCode.AvalonEdit.Folding;
 
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 
 namespace IniEditor
 {
@@ -58,9 +59,16 @@ namespace IniEditor
             char openingBrace = this.OpeningBrace;
             char closingBrace = this.ClosingBrace;
             var max = document.Text.Length - 1;
+            StringBuilder foldName = new StringBuilder();
+            bool writeName = false;
             for (int i = 0; i <= max; i++)
             {
                 char c = document.GetCharAt(i);
+
+                if (writeName && c.Equals(openingBrace)) writeName = false;
+                else if (writeName) foldName.Append(c);
+                else if (c.Equals(closingBrace)) writeName = true;
+
                 if (c == openingBrace)
                 {
                     startOffsets.Push(i + 1);
@@ -71,7 +79,8 @@ namespace IniEditor
                     // don't fold if opening and closing brace are on the same line
                     if (startOffset < lastNewLineOffset)
                     {
-                        newFoldings.Add(new NewFolding(startOffset, i.Equals(max) ? i + 1 : i - 1));
+                        newFoldings.Add(new NewFolding(startOffset, i.Equals(max) ? i + 1 : i - 1) { Name = foldName.ToString() });
+                        foldName.Clear();
                     }
                 }
                 else if (c == '\n' || c == '\r')

@@ -51,6 +51,22 @@ namespace IniEditor
             Editor.ShowCompletionWindow(Editor.GetCursorWord());
 
             foldingStrategy.UpdateFoldings(foldingManager, Editor.Document);
+            treeViewRoot.ItemsSource = foldingManager.AllFoldings.Select(i =>
+            {
+                var tvi = new TreeViewItem { Header = i.Title, Tag = i };
+                tvi.MouseDoubleClick += Tvi_MouseDoubleClick;
+                return tvi;
+            });
+        }
+
+        private void Tvi_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is TreeViewItem tvi
+                && tvi.Tag is FoldingSection fs)
+            {
+                FocusManager.SetFocusedElement(this, Editor);
+                Editor.Select(fs.StartOffset - fs.Title.Length - 2, fs.Title.Length + 2);
+            }
         }
 
         private void Document_Changed(object sender, ICSharpCode.AvalonEdit.Document.DocumentChangeEventArgs e)
