@@ -27,7 +27,7 @@ namespace IniEditor
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
         public MainWindow()
         {
@@ -71,16 +71,17 @@ namespace IniEditor
             }));
         }
 
-        private void Tvi_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private async void Tvi_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (sender is TreeViewItem tvi
-                && tvi.Tag is FoldingSection fs)
-            {
-                FocusManager.SetFocusedElement(this, Editor);
-                Editor.Select(fs.StartOffset - fs.Title.Length - 2, fs.Title.Length + 2);
-                EditorScroll.ScrollToAvalonEdit(Editor.TextArea,
-                    Editor.Document.GetLineByOffset(Editor.CaretOffset = fs.StartOffset).LineNumber);
-            }
+            if (!((sender as TreeViewItem)?.Tag is FoldingSection fs)) return;
+
+            var lineNum = Editor.Document.GetLineByOffset(Editor.CaretOffset = fs.StartOffset).LineNumber;
+            var selectStart = Task.Run(() => fs.StartOffset - fs.Title.Length - 2);
+            var selectEnd = Task.Run(() => fs.Title.Length + 2);
+
+            EditorScroll.ScrollToAvalonEdit(Editor.TextArea, lineNum);
+            Editor.Select(await selectStart, await selectEnd);
+            FocusManager.SetFocusedElement(this, Editor);
         }
 
         private void Document_Changed(object sender, ICSharpCode.AvalonEdit.Document.DocumentChangeEventArgs e)

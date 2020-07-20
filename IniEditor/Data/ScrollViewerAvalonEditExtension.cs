@@ -60,7 +60,7 @@ namespace IniEditor.Data
             double num2 = visualPosition.Y - referencedVerticalViewPortOffset;
             if (Math.Abs(num2 - scrollViewer.VerticalOffset) > minimumScrollFraction * scrollViewer.ViewportHeight)
             {
-                scrollViewer.ScrollToVerticalOffset(Math.Max(0.0, num2));
+                scrollViewer.AnimateScroll(Math.Max(0.0, num2));
             }
 
             if (column <= 0)
@@ -78,7 +78,7 @@ namespace IniEditor.Data
             }
             else
             {
-                scrollViewer.ScrollToHorizontalOffset(0.0);
+                scrollViewer.AnimateScroll(0.0);
             }
         }
 

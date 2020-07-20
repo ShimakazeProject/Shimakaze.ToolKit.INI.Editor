@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:data="clr-namespace:IniEditor.Data"
     xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
     xmlns:local="clr-namespace:IniEditor"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -24,22 +25,26 @@
             <ColumnDefinition MaxWidth="300" Width="*"/>
             <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
-        <ui:ScrollViewerEx
+        <data:ScrollViewer
             ui:ScrollViewerHelper.IsEnabled="True"
-            ui:ScrollViewerHelper.AutoHideScrollBars="True">
+            ui:ScrollViewerHelper.AutoHideScrollBars="True"
+            VirtualizingPanel.ScrollUnit="Pixel" 
+            VirtualizingPanel.VirtualizationMode="Recycling">
             <TreeView x:Name="treeView">
                 <TreeViewItem Header="Root" x:Name="treeViewRoot" IsExpanded="True">
                 </TreeViewItem>
             </TreeView>
-        </ui:ScrollViewerEx>
+        </data:ScrollViewer>
         
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            <ui:ScrollViewerEx
+            <data:ScrollViewer
                 x:Name="EditorScroll"
+                VirtualizingPanel.ScrollUnit="Pixel" 
+                VirtualizingPanel.VirtualizationMode="Recycling"
                 ui:ScrollViewerHelper.IsEnabled="True"
                 ui:ScrollViewerHelper.AutoHideScrollBars="True">
                 <avalonEdit:TextEditor
@@ -62,7 +67,7 @@
                         </ControlTemplate>
                     </avalonEdit:TextEditor.Template>
                 </avalonEdit:TextEditor>
-            </ui:ScrollViewerEx>
+            </data:ScrollViewer>
             
             <StackPanel Orientation="Horizontal" Grid.Row="1">
                 <TextBlock Text="当前行的内容: "/>
