@@ -34,15 +34,22 @@ namespace IniEditor
             InitializeComponent();
             ReLoadTheme();
 
-            Editor.Text = "[Section]\nKey = Value; Summary";
+            for (int i = 0; i < 500; i++)
+            {
+                Editor.Text += $"[Section{i + 1}]";
+                Editor.Text += Environment.NewLine;
+                Editor.Text += "Key = Value; Summary";
+                Editor.Text += Environment.NewLine;
+                Editor.Text += Environment.NewLine;
+            }
             Editor.Document.Changed += Document_Changed;
             Editor.MouseMove += (o, e) => Method();
             Editor.KeyUp += (o, e) => Method();
-            Editor.TextArea.TextEntered += TextArea_TextEntered; ;
+            Editor.TextArea.TextEntered += TextArea_TextEntered;
 
             foldingManager = FoldingManager.Install(Editor.TextArea);
             foldingStrategy = new FoldingStrategy();
-            foldingStrategy.UpdateFoldings(foldingManager, Editor.Document);
+            Update();
         }
         private FoldingManager foldingManager;
         private FoldingStrategy foldingStrategy;
@@ -50,13 +57,18 @@ namespace IniEditor
         {
             Editor.ShowCompletionWindow(Editor.GetCursorWord());
 
-            foldingStrategy.UpdateFoldings(foldingManager, Editor.Document);
+            Task.Run(Update);
+        }
+        private void Update()
+        {
+            Editor.Dispatcher.Invoke(() => foldingStrategy.UpdateFoldings(foldingManager, Editor.Document));
+            treeViewRoot.Dispatcher.Invoke(() =>
             treeViewRoot.ItemsSource = foldingManager.AllFoldings.Select(i =>
             {
                 var tvi = new TreeViewItem { Header = i.Title, Tag = i };
                 tvi.MouseDoubleClick += Tvi_MouseDoubleClick;
                 return tvi;
-            });
+            }));
         }
 
         private void Tvi_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -66,6 +78,8 @@ namespace IniEditor
             {
                 FocusManager.SetFocusedElement(this, Editor);
                 Editor.Select(fs.StartOffset - fs.Title.Length - 2, fs.Title.Length + 2);
+                EditorScroll.ScrollToAvalonEdit(Editor.TextArea,
+                    Editor.Document.GetLineByOffset(Editor.CaretOffset = fs.StartOffset).LineNumber);
             }
         }
 

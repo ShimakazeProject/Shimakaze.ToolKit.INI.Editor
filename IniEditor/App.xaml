@@ -11,7 +11,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
 
-                <ui:ThemeResources />
+                <ui:ThemeResources RequestedTheme="Dark" />
                 <ui:XamlControlsResources />
 
                 <!--  FluentWPF Controls  -->

@@ -15,22 +15,20 @@
     fw:AcrylicWindow.FallbackColor="#000"
     fw:AcrylicWindow.TintColor="#000"
     fw:PointerTracker.Enabled="True"
-    Background="#40000000"
+    Background="Transparent"
     Foreground="#FFF"
+    
     mc:Ignorable="d">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition MaxWidth="300" Width="*"/>
             <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
-        <ui:ScrollViewerEx>
-            <ui:ScrollViewerEx.Resources>
-                <Style TargetType="TreeViewItem" >
-                    <Setter Property="Foreground" Value="#fff"/>
-                </Style>
-            </ui:ScrollViewerEx.Resources>
+        <ui:ScrollViewerEx
+            ui:ScrollViewerHelper.IsEnabled="True"
+            ui:ScrollViewerHelper.AutoHideScrollBars="True">
             <TreeView x:Name="treeView">
-                <TreeViewItem Header="Root" x:Name="treeViewRoot">
+                <TreeViewItem Header="Root" x:Name="treeViewRoot" IsExpanded="True">
                 </TreeViewItem>
             </TreeView>
         </ui:ScrollViewerEx>
@@ -40,19 +38,32 @@
                 <RowDefinition/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            <avalonEdit:TextEditor
-            x:Name="Editor"
-            Background="Transparent"
-            FontFamily="Consolas"
-            FontSize="14"
-            Foreground="#FFF"
-            HorizontalScrollBarVisibility="Auto"
-            LineNumbersForeground="White"
-            OpacityMask="White"
-            ShowLineNumbers="True"
-            SyntaxHighlighting="INI"
-            VerticalScrollBarVisibility="Auto" />
-
+            <ui:ScrollViewerEx
+                x:Name="EditorScroll"
+                ui:ScrollViewerHelper.IsEnabled="True"
+                ui:ScrollViewerHelper.AutoHideScrollBars="True">
+                <avalonEdit:TextEditor
+                    x:Name="Editor"
+                    Background="Transparent"
+                    FontFamily="Consolas"
+                    FontSize="14"
+                    Foreground="#FFF"
+                    LineNumbersForeground="White"
+                    OpacityMask="White"
+                    ShowLineNumbers="True"
+                    SyntaxHighlighting="INI"
+                    VerticalScrollBarVisibility="Auto"
+                    ui:ScrollViewerHelper.AutoHideScrollBars="True">
+                    <avalonEdit:TextEditor.Template>
+                        <ControlTemplate>
+                            <ContentPresenter
+                                Focusable="False"
+                                Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TextArea}"/>
+                        </ControlTemplate>
+                    </avalonEdit:TextEditor.Template>
+                </avalonEdit:TextEditor>
+            </ui:ScrollViewerEx>
+            
             <StackPanel Orientation="Horizontal" Grid.Row="1">
                 <TextBlock Text="当前行的内容: "/>
                 <TextBlock x:Name="tbLine"/>
