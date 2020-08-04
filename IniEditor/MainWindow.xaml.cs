@@ -34,7 +34,7 @@ namespace IniEditor
             InitializeComponent();
             ReLoadTheme();
 
-            for (int i = 0; i < 500; i++)
+            for (int i = 0; i < 5; i++)
             {
                 Editor.Text += $"[Section{i + 1}]";
                 Editor.Text += Environment.NewLine;
@@ -63,12 +63,12 @@ namespace IniEditor
         {
             Editor.Dispatcher.Invoke(() => foldingStrategy.UpdateFoldings(foldingManager, Editor.Document));
             treeViewRoot.Dispatcher.Invoke(() =>
-            treeViewRoot.ItemsSource = foldingManager.AllFoldings.Select(i =>
-            {
-                var tvi = new TreeViewItem { Header = i.Title, Tag = i };
-                tvi.MouseDoubleClick += Tvi_MouseDoubleClick;
-                return tvi;
-            }));
+                treeViewRoot.ItemsSource = foldingManager.AllFoldings.Select(i =>
+                {
+                    var tvi = new TreeViewItem { Header = i.Title, Tag = i };
+                    tvi.MouseDoubleClick += Tvi_MouseDoubleClick;
+                    return tvi;
+                }));
         }
 
         private async void Tvi_MouseDoubleClick(object sender, MouseButtonEventArgs e)

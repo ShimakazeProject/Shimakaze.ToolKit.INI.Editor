@@ -79,7 +79,9 @@ namespace IniEditor
                     // don't fold if opening and closing brace are on the same line
                     if (startOffset < lastNewLineOffset)
                     {
-                        newFoldings.Add(new NewFolding(startOffset, i.Equals(max) ? i + 1 : i - 1) { Name = foldName.ToString() });
+                        newFoldings.Add(new NewFolding(startOffset - foldName.Length - 2,
+                            i.Equals(max) ? i + 1 : i - 2)
+                        { Name = foldName.ToString() });
                         foldName.Clear();
                     }
                 }

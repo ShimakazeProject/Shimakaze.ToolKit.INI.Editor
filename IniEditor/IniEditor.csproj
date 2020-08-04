@@ -21,7 +21,6 @@
 
     <ItemGroup>
         <PackageReference Include="AvalonEdit" Version="6.0.1" />
-        <PackageReference Include="FluentWPF" Version="0.8.0" />
         <PackageReference Include="ModernWpfUI" Version="0.9.1" />
     </ItemGroup>
 
