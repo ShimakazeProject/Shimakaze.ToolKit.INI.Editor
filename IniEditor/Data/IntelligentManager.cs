@@ -44,13 +44,6 @@ namespace IniEditor.Data
             // Open code completion after the user has pressed dot:
             var completionWindow = new CompletionWindow(editor.TextArea);
 
-            SourceChord.FluentWPF.AcrylicWindow.SetEnabled(completionWindow, true);
-            SourceChord.FluentWPF.AcrylicWindow.SetTintColor(completionWindow, System.Windows.Media.Colors.Black);
-            SourceChord.FluentWPF.AcrylicWindow.SetFallbackColor(completionWindow, System.Windows.Media.Colors.Black);
-            SourceChord.FluentWPF.AcrylicWindow.SetAcrylicWindowStyle(completionWindow, SourceChord.FluentWPF.AcrylicWindowStyle.None);
-            SourceChord.FluentWPF.PointerTracker.SetEnabled(completionWindow, true);
-
-
             completionWindow.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.White);
 
             (completionWindow.Content as System.Windows.Controls.Control).Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.Transparent);

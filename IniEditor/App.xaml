@@ -21,7 +21,6 @@
             <Style TargetType="{x:Type avalonEdit:CompletionListBox}" BasedOn="{StaticResource ListBoxRevealStyle}">
                 <Setter Property="Background" Value="Transparent"/>
                 <Setter Property="Foreground" Value="White"/>
-                <Setter Property="fw:PointerTracker.Enabled" Value="True"/>
                 <!--<Setter Property="ItemTemplate">
                     <Setter.Value>
                         <DataTemplate DataType="{x:Type data:CompletionData}">
