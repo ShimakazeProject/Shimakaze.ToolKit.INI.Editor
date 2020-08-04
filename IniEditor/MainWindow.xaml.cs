@@ -76,7 +76,7 @@ namespace IniEditor
             if (!((sender as TreeViewItem)?.Tag is FoldingSection fs)) return;
 
             var lineNum = Editor.Document.GetLineByOffset(Editor.CaretOffset = fs.StartOffset).LineNumber;
-            var selectStart = Task.Run(() => fs.StartOffset - fs.Title.Length - 2);
+            var selectStart = Task.Run(() => fs.StartOffset);
             var selectEnd = Task.Run(() => fs.Title.Length + 2);
 
             EditorScroll.ScrollToAvalonEdit(Editor.TextArea, lineNum);
